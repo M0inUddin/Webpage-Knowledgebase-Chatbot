@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" rx="5" ry="5"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Webpage Knowledgebase Chatbot: System Architecture</text>
+  
+  <!-- Web Crawling & Extraction Section -->
+  <rect x="50" y="80" width="200" height="120" fill="#e6f2ff" stroke="#3366cc" stroke-width="2" rx="10" ry="10"/>
+  <text x="150" y="110" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Web Crawling</text>
+  <text x="150" y="130" font-family="Arial" font-size="12" text-anchor="middle">BeautifulSoup/Scrapy</text>
+  <text x="150" y="150" font-family="Arial" font-size="12" text-anchor="middle">URL Management</text>
+  <text x="150" y="170" font-family="Arial" font-size="12" text-anchor="middle">Content Extraction</text>
+  
+  <!-- Data Processing Section -->
+  <rect x="300" y="80" width="200" height="120" fill="#e6f7ff" stroke="#0099cc" stroke-width="2" rx="10" ry="10"/>
+  <text x="400" y="110" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Data Processing</text>
+  <text x="400" y="130" font-family="Arial" font-size="12" text-anchor="middle">Text Cleaning</text>
+  <text x="400" y="150" font-family="Arial" font-size="12" text-anchor="middle">Chunking</text>
+  <text x="400" y="170" font-family="Arial" font-size="12" text-anchor="middle">OpenAI Embeddings</text>
+  
+  <!-- Vector Database Section -->
+  <rect x="550" y="80" width="200" height="120" fill="#e6fff2" stroke="#00cc99" stroke-width="2" rx="10" ry="10"/>
+  <text x="650" y="110" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Knowledge Base</text>
+  <text x="650" y="130" font-family="Arial" font-size="12" text-anchor="middle">ChromaDB</text>
+  <text x="650" y="150" font-family="Arial" font-size="12" text-anchor="middle">Vector Storage</text>
+  <text x="650" y="170" font-family="Arial" font-size="12" text-anchor="middle">Metadata Indexing</text>
+  
+  <!-- Arrows for data flow (top row) -->
+  <line x1="250" y1="140" x2="300" y2="140" stroke="#666666" stroke-width="2" stroke-dasharray="5,5"/>
+  <polygon points="295,135 305,140 295,145" fill="#666666"/>
+  
+  <line x1="500" y1="140" x2="550" y2="140" stroke="#666666" stroke-width="2" stroke-dasharray="5,5"/>
+  <polygon points="545,135 555,140 545,145" fill="#666666"/>
+  
+  <!-- RAG Pipeline Section -->
+  <rect x="300" y="240" width="200" height="140" fill="#fff2e6" stroke="#ff9933" stroke-width="2" rx="10" ry="10"/>
+  <text x="400" y="270" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">RAG Engine</text>
+  <text x="400" y="290" font-family="Arial" font-size="12" text-anchor="middle">GPT-4.1</text>
+  <text x="400" y="310" font-family="Arial" font-size="12" text-anchor="middle">Prompt Engineering</text>
+  <text x="400" y="330" font-family="Arial" font-size="12" text-anchor="middle">Response Generation</text>
+  <text x="400" y="350" font-family="Arial" font-size="12" text-anchor="middle">Source Attribution</text>
+  
+  <!-- Query Processor Section -->
+  <rect x="550" y="250" width="200" height="120" fill="#f2e6ff" stroke="#9933ff" stroke-width="2" rx="10" ry="10"/>
+  <text x="650" y="280" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Query Processor</text>
+  <text x="650" y="300" font-family="Arial" font-size="12" text-anchor="middle">Query Embedding</text>
+  <text x="650" y="320" font-family="Arial" font-size="12" text-anchor="middle">Similarity Search</text>
+  <text x="650" y="340" font-family="Arial" font-size="12" text-anchor="middle">Context Assembly</text>
+  
+  <!-- User Interface Section -->
+  <rect x="50" y="250" width="200" height="120" fill="#ffe6e6" stroke="#ff3366" stroke-width="2" rx="10" ry="10"/>
+  <text x="150" y="280" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">User Interface</text>
+  <text x="150" y="300" font-family="Arial" font-size="12" text-anchor="middle">Gradio</text>
+  <text x="150" y="320" font-family="Arial" font-size="12" text-anchor="middle">Chat Interface</text>
+  <text x="150" y="340" font-family="Arial" font-size="12" text-anchor="middle">Session Management</text>
+  
+  <!-- Arrows connecting query process -->
+  <line x1="250" y1="310" x2="300" y2="310" stroke="#666666" stroke-width="2"/>
+  <polygon points="295,305 305,310 295,315" fill="#666666"/>
+  
+  <line x1="500" y1="310" x2="550" y2="310" stroke="#666666" stroke-width="2"/>
+  <polygon points="545,305 555,310 545,315" fill="#666666"/>
+  
+  <!-- Arrow from KB to Query Processor -->
+  <line x1="650" y1="200" x2="650" y2="250" stroke="#666666" stroke-width="2"/>
+  <polygon points="645,245 650,255 655,245" fill="#666666"/>
+  
+  <!-- Sample Query Flow Section -->
+  <rect x="100" y="420" width="600" height="140" fill="#f0f0f0" stroke="#999999" stroke-width="2" rx="10" ry="10"/>
+  <text x="400" y="450" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Query-Response Flow Example</text>
+  
+  <!-- Query Flow Steps -->
+  <circle cx="150" cy="480" r="15" fill="#ffcccc" stroke="#ff6666" stroke-width="2"/>
+  <text x="150" y="485" font-family="Arial" font-size="12" text-anchor="middle">1</text>
+  <text x="150" y="515" font-family="Arial" font-size="11" text-anchor="middle">User Query</text>
+  
+  <circle cx="225" cy="480" r="15" fill="#ffddcc" stroke="#ff9966" stroke-width="2"/>
+  <text x="225" y="485" font-family="Arial" font-size="12" text-anchor="middle">2</text>
+  <text x="225" y="515" font-family="Arial" font-size="11" text-anchor="middle">Embedding</text>
+  
+  <circle cx="300" cy="480" r="15" fill="#ffeecc" stroke="#ffcc66" stroke-width="2"/>
+  <text x="300" y="485" font-family="Arial" font-size="12" text-anchor="middle">3</text>
+  <text x="300" y="515" font-family="Arial" font-size="11" text-anchor="middle">Retrieval</text>
+  
+  <circle cx="375" cy="480" r="15" fill="#ffffcc" stroke="#ffff66" stroke-width="2"/>
+  <text x="375" y="485" font-family="Arial" font-size="12" text-anchor="middle">4</text>
+  <text x="375" y="515" font-family="Arial" font-size="11" text-anchor="middle">Context</text>
+  
+  <circle cx="450" cy="480" r="15" fill="#eeffcc" stroke="#ccff66" stroke-width="2"/>
+  <text x="450" y="485" font-family="Arial" font-size="12" text-anchor="middle">5</text>
+  <text x="450" y="515" font-family="Arial" font-size="11" text-anchor="middle">Prompt</text>
+  
+  <circle cx="525" cy="480" r="15" fill="#ddffcc" stroke="#99ff66" stroke-width="2"/>
+  <text x="525" y="485" font-family="Arial" font-size="12" text-anchor="middle">6</text>
+  <text x="525" y="515" font-family="Arial" font-size="11" text-anchor="middle">Generation</text>
+  
+  <circle cx="600" cy="480" r="15" fill="#ccffcc" stroke="#66ff66" stroke-width="2"/>
+  <text x="600" y="485" font-family="Arial" font-size="12" text-anchor="middle">7</text>
+  <text x="600" y="515" font-family="Arial" font-size="11" text-anchor="middle">Response</text>
+  
+  <!-- Flow arrows -->
+  <line x1="165" y1="480" x2="210" y2="480" stroke="#666666" stroke-width="1.5"/>
+  <polygon points="205,475 215,480 205,485" fill="#666666"/>
+  
+  <line x1="240" y1="480" x2="285" y2="480" stroke="#666666" stroke-width="1.5"/>
+  <polygon points="280,475 290,480 280,485" fill="#666666"/>
+  
+  <line x1="315" y1="480" x2="360" y2="480" stroke="#666666" stroke-width="1.5"/>
+  <polygon points="355,475 365,480 355,485" fill="#666666"/>
+  
+  <line x1="390" y1="480" x2="435" y2="480" stroke="#666666" stroke-width="1.5"/>
+  <polygon points="430,475 440,480 430,485" fill="#666666"/>
+  
+  <line x1="465" y1="480" x2="510" y2="480" stroke="#666666" stroke-width="1.5"/>
+  <polygon points="505,475 515,480 505,485" fill="#666666"/>
+  
+  <line x1="540" y1="480" x2="585" y2="480" stroke="#666666" stroke-width="1.5"/>
+  <polygon points="580,475 590,480 580,485" fill="#666666"/>
+</svg>
