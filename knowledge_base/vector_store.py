@@ -4,7 +4,7 @@ Vector database management for the Manzil Chatbot knowledge base.
 
 import time
 import json
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any
 import chromadb
 from chromadb.config import Settings
 
