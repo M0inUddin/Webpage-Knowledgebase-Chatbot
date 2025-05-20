@@ -157,12 +157,19 @@ class WebCrawler:
             with self.rate_limiter.limited_context("crawler", 1):
                 headers = {
                     "User-Agent": self.user_agent,
-                    "Accept": "text/html,application/xhtml+xml,application/xml",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                     "Accept-Language": "en-US,en;q=0.9",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "Connection": "keep-alive",
+                    "Upgrade-Insecure-Requests": "1",
                 }
 
+                # Use a session for persistence across requests
+                if not hasattr(self, "session"):
+                    self.session = requests.Session()
+
                 logger.debug(f"Fetching URL: {url}")
-                response = requests.get(url, headers=headers, timeout=self.timeout)
+                response = self.session.get(url, headers=headers, timeout=self.timeout)
                 response.raise_for_status()
 
                 # Check content type

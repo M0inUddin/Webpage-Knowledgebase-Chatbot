@@ -18,7 +18,10 @@ BASE_URL = os.getenv("BASE_URL", "https://help.manzil.ca/hc/en-us")
 MAX_PAGES = int(os.getenv("MAX_PAGES", "100"))
 CRAWL_DELAY = float(os.getenv("CRAWL_DELAY", "1.0"))  # seconds
 RESPECT_ROBOTS_TXT = os.getenv("RESPECT_ROBOTS_TXT", "True").lower() == "true"
-USER_AGENT = os.getenv("USER_AGENT", "ManzilHelpChatbot/1.0")
+USER_AGENT = os.getenv(
+    "USER_AGENT",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+)
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "30"))  # seconds
 
 # Content processing settings
