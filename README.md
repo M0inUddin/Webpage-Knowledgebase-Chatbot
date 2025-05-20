@@ -2,7 +2,7 @@
 
 A Retrieval-Augmented Generation (RAG) system designed to provide accurate, contextually relevant information about Manzil's Shariah-compliant financial services by extracting and understanding content from the Manzil Help Center website.
 
-![Manzil Help Center Chatbot](docs/chatbot-preview.png)
+![Manzil Help Center Chatbot](docs/system-architecture-diagram.svg)
 
 ## Overview
 
@@ -33,7 +33,7 @@ The chatbot uses a RAG (Retrieval-Augmented Generation) architecture to ensure r
 
 The system follows a modular architecture with clear separation of concerns:
 
-![System Architecture](docs/system-architecture.svg)
+![System Architecture](docs/system-architecture-diagram.svg)
 
 1. **Content Extraction & Processing**
 
@@ -142,7 +142,7 @@ All configuration options can be set in the `.env` file or as environment variab
 | `CHUNK_SIZE`             | Size of text chunks     | 500                               |
 | `CHUNK_OVERLAP`          | Overlap between chunks  | 100                               |
 | `EMBEDDING_MODEL`        | OpenAI embedding model  | `text-embedding-3-large`          |
-| `COMPLETION_MODEL`       | OpenAI completion model | `gpt-4o`                          |
+| `COMPLETION_MODEL`       | OpenAI completion model | `gpt-4.1`                          |
 | `DEBUG_MODE`             | Enable debug logging    | `False`                           |
 | `ENABLE_KNOWLEDGE_GRAPH` | Enable entity tracking  | `False`                           |
 | `SERVER_PORT`            | Web interface port      | 7860                              |
@@ -204,12 +204,6 @@ Adjust prompt templates in `nlp/prompt_engineering.py` to modify how responses a
 Update the Islamic finance terminology and entity types in `knowledge_base/knowledge_graph.py` and `nlp/query_processor.py`.
 
 ## Development
-
-### Running Tests
-
-```bash
-pytest tests/
-```
 
 ### Code Style
 
