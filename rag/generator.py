@@ -4,11 +4,11 @@ Response generation using OpenAI's LLM for the Manzil Chatbot.
 
 from typing import Dict, List, Any, Optional
 from openai import OpenAI
-from ratelimiter import RateLimiter
 
 from config import settings
 from utils.logging_config import get_logger
 from utils.error_handlers import RAGException, retry, ErrorHandler, APIException
+from utils.rate_limiters import api_limiter
 
 logger = get_logger("rag.generator")
 
@@ -24,7 +24,6 @@ class ResponseGenerator:
         self.model = settings.COMPLETION_MODEL
         self.temperature = settings.TEMPERATURE
         self.max_tokens = settings.MAX_TOKENS
-        self.rate_limit = settings.RATE_LIMIT
 
         # Initialize OpenAI client
         try:
@@ -33,9 +32,6 @@ class ResponseGenerator:
         except Exception as e:
             logger.error(f"Failed to initialize OpenAI client: {str(e)}")
             raise RAGException(f"Failed to initialize response generator: {str(e)}")
-
-        # Set up rate limiter
-        self.rate_limiter = RateLimiter(max_calls=self.rate_limit, period=60)
 
     @retry(exceptions=(Exception,), tries=3, delay=2, backoff=2, logger=logger)
     def generate(
@@ -65,7 +61,7 @@ class ResponseGenerator:
                 temp = temperature if temperature is not None else self.temperature
                 max_tok = max_tokens if max_tokens is not None else self.max_tokens
 
-                with self.rate_limiter:
+                with api_limiter.limited_context("openai", "chat"):
                     logger.debug(
                         f"Generating response with prompt of length: {len(prompt)}"
                     )
@@ -145,7 +141,7 @@ class ResponseGenerator:
                 temp = temperature if temperature is not None else self.temperature
                 max_tok = max_tokens if max_tokens is not None else self.max_tokens
 
-                with self.rate_limiter:
+                with api_limiter.limited_context("openai", "chat"):
                     logger.debug(
                         f"Generating streaming response with prompt of length: {len(prompt)}"
                     )

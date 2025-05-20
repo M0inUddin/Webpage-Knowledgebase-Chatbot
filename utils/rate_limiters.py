@@ -6,6 +6,7 @@ import time
 import threading
 from typing import Dict, Optional
 from functools import wraps
+import contextlib
 
 from config import settings
 from utils.logging_config import get_logger
@@ -195,6 +196,21 @@ class RateLimiter:
 
         bucket.consume(tokens)
 
+    @contextlib.contextmanager
+    def limited_context(self, key: str, tokens: int = 1):
+        """
+        Context manager for rate limiting.
+
+        Args:
+            key (str): The resource or operation key
+            tokens (int): Number of tokens to consume
+        """
+        self.wait(key, tokens)
+        try:
+            yield
+        finally:
+            pass
+
 
 def rate_limit(key: str, tokens: int = 1, rate_limiter: Optional[RateLimiter] = None):
     """
@@ -287,6 +303,34 @@ class ApiRateLimiter:
             tokens (int): Number of tokens to consume
         """
         self.limit_api_call("openai", endpoint, tokens)
+
+    @contextlib.contextmanager
+    def limited_context(self, api_name: str, endpoint: str, tokens: int = 1):
+        """
+        Context manager for API rate limiting.
+
+        Args:
+            api_name (str): Name of the API provider
+            endpoint (str): Specific endpoint or operation
+            tokens (int): Number of tokens to consume
+        """
+        # Construct the tier key
+        tier_key = f"{api_name}_{endpoint}"
+
+        # Use the appropriate limiter or fall back to default
+        if tier_key in self.limiters:
+            limiter = self.limiters[tier_key]
+        elif api_name in self.limiters:
+            limiter = self.limiters[api_name]
+        else:
+            limiter = self.limiters["default"]
+
+        # Apply the limit
+        limiter.wait(endpoint, tokens)
+        try:
+            yield
+        finally:
+            pass
 
 
 # Create singleton instances

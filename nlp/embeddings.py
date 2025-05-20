@@ -5,11 +5,11 @@ Embedding generation for the Manzil Chatbot using OpenAI's text embeddings.
 import time
 from typing import List
 from openai import OpenAI
-from ratelimiter import RateLimiter
 
 from config import settings
 from utils.logging_config import get_logger
 from utils.error_handlers import EmbeddingException, retry, ErrorHandler, APIException
+from utils.rate_limiters import api_limiter
 
 logger = get_logger("nlp.embeddings")
 
@@ -23,7 +23,6 @@ class EmbeddingGenerator:
         """Initialize the embedding generator with API settings."""
         self.api_key = settings.OPENAI_API_KEY
         self.model = settings.EMBEDDING_MODEL
-        self.rate_limit = settings.RATE_LIMIT
 
         # Initialize OpenAI client
         try:
@@ -34,9 +33,6 @@ class EmbeddingGenerator:
             raise EmbeddingException(
                 f"Failed to initialize embedding generator: {str(e)}"
             )
-
-        # Set up rate limiter
-        self.rate_limiter = RateLimiter(max_calls=self.rate_limit, period=60)
 
     @retry(exceptions=(Exception,), tries=3, delay=2, backoff=2, logger=logger)
     def get_embedding(self, text: str) -> List[float]:
@@ -55,7 +51,7 @@ class EmbeddingGenerator:
                 raise ValueError("Cannot embed empty text")
 
             try:
-                with self.rate_limiter:
+                with api_limiter.limited_context("openai", "embeddings"):
                     logger.debug(f"Generating embedding for text: {text[:50]}...")
 
                     response = self.client.embeddings.create(
@@ -107,7 +103,7 @@ class EmbeddingGenerator:
                 batch = filtered_texts[i : i + batch_size]
 
                 try:
-                    with self.rate_limiter:
+                    with api_limiter.limited_context("openai", "embeddings"):
                         logger.debug(
                             f"Generating embeddings for batch of {len(batch)} texts"
                         )
