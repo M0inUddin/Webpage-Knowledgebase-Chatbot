@@ -8,11 +8,11 @@ from urllib.parse import urljoin, urlparse
 import urllib.robotparser
 from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
-from ratelimiter import RateLimiter
 
 from config import settings
 from utils.logging_config import get_logger
 from utils.error_handlers import CrawlerException, retry, ErrorHandler
+from utils.rate_limiters import RateLimiter
 from crawler.content_extractor import ContentExtractor
 
 logger = get_logger("crawler.crawler")
@@ -36,7 +36,9 @@ class WebCrawler:
         self.content_extractor = ContentExtractor()
 
         # Set up rate limiter
-        self.rate_limiter = RateLimiter(max_calls=self.rate_limit, period=60)
+        self.rate_limiter = RateLimiter(
+            default_rate=self.rate_limit / 60.0, default_capacity=10
+        )
 
         # Initialize robots.txt parser
         self.robots_parser = None
@@ -152,7 +154,7 @@ class WebCrawler:
     def _fetch_url(self, url):
         """Fetch content from a URL with retries."""
         try:
-            with self.rate_limiter:
+            with self.rate_limiter.limited_context("crawler", 1):
                 headers = {
                     "User-Agent": self.user_agent,
                     "Accept": "text/html,application/xhtml+xml,application/xml",
