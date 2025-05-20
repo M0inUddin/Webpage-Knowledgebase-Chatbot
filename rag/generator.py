@@ -80,9 +80,9 @@ class ResponseGenerator:
                         messages.append({"role": "user", "content": user_message})
 
                     # Generate response
-                    response = self.client.chat.completions.create(
+                    response = self.client.responses.create(
                         model=self.model,
-                        messages=messages,
+                        input=messages,
                         temperature=temp,
                         max_tokens=max_tok,
                     )
@@ -162,9 +162,9 @@ class ResponseGenerator:
                         messages.append({"role": "user", "content": user_message})
 
                     # Generate streaming response
-                    stream = self.client.chat.completions.create(
+                    stream = self.client.responses.create(
                         model=self.model,
-                        messages=messages,
+                        input=messages,
                         temperature=temp,
                         max_tokens=max_tok,
                         stream=True,
