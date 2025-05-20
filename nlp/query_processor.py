@@ -307,7 +307,7 @@ Return ONLY a JSON array with the following structure for each entity:
 Only include entities that are clearly mentioned in the text. Focus on Islamic finance terminology when present."""
 
                 messages = [
-                    {"role": "system", "content": system_prompt},
+                    {"role": "developer", "content": system_prompt},
                     {"role": "user", "content": f"Extract entities from: {text}"},
                 ]
 
@@ -470,7 +470,7 @@ Focus on Islamic finance topics, product details, application processes, and eli
 Return ONLY a JSON array of questions with no additional text."""
 
                 messages = [
-                    {"role": "system", "content": system_prompt},
+                    {"role": "developer", "content": system_prompt},
                     {
                         "role": "user",
                         "content": f"User: {query}\nAssistant: {response}",

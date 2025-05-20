@@ -73,7 +73,7 @@ class ResponseGenerator:
                     # Split prompt into system and user message
                     system_message, user_message = self._parse_prompt(prompt)
 
-                    messages = [{"role": "system", "content": system_message}]
+                    messages = [{"role": "developer", "content": system_message}]
 
                     # Add user message if split was successful
                     if user_message:
@@ -83,11 +83,9 @@ class ResponseGenerator:
                     response = self.client.responses.create(
                         model=self.model,
                         input=messages,
-                        temperature=temp,
-                        max_tokens=max_tok,
                     )
 
-                    generated_text = response.choices[0].message.content
+                    generated_text = response.output_text
                     logger.debug(f"Generated response of length: {len(generated_text)}")
 
                     return generated_text
@@ -155,7 +153,7 @@ class ResponseGenerator:
                     # Split prompt into system and user message
                     system_message, user_message = self._parse_prompt(prompt)
 
-                    messages = [{"role": "system", "content": system_message}]
+                    messages = [{"role": "developer", "content": system_message}]
 
                     # Add user message if split was successful
                     if user_message:
@@ -163,20 +161,18 @@ class ResponseGenerator:
 
                     # Generate streaming response
                     stream = self.client.responses.create(
-                        model=self.model,
-                        input=messages,
-                        temperature=temp,
-                        max_tokens=max_tok,
-                        stream=True,
+                        model=self.model, input=messages, stream=True
                     )
 
                     # Process the stream
                     full_response = ""
-                    for chunk in stream:
-                        if chunk.choices and chunk.choices[0].delta.content:
-                            content = chunk.choices[0].delta.content
-                            full_response += content
-                            callback(content)
+                    for event in stream:
+                        # Only process text delta events
+                        if getattr(event, "type", None) == "response.output_text.delta":
+                            content = getattr(event, "delta", {}).get("text", "")
+                            if content:
+                                full_response += content
+                                callback(content)
 
                     logger.debug(
                         f"Completed streaming response of length: {len(full_response)}"
