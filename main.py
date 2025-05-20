@@ -2,9 +2,7 @@
 Main application entry point for the Manzil Chatbot.
 """
 
-import os
 import argparse
-from pathlib import Path
 
 # Import configuration and setup logging first
 from config import settings
